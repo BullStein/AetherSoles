@@ -1,0 +1,727 @@
+{% extends "base.html" %}
+
+{% block title %}Meu Perfil - AETHERSOLES{% endblock %}
+
+{% block content %}
+<style>
+    .profile-section {
+        padding: 4rem 0;
+        background: var(--bg-secondary);
+        min-height: 100vh;
+    }
+
+    .profile-container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .profile-header {
+        background: var(--bg-card);
+        border-radius: var(--border-radius-xl);
+        padding: 3rem;
+        box-shadow: var(--shadow-xl);
+        border: 1px solid var(--border-color);
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 3rem;
+        color: white;
+        border: 4px solid var(--bg-card);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .profile-name {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .profile-email {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .stat-card {
+        background: var(--bg-primary);
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        text-align: center;
+        border-left: 4px solid var(--primary-color);
+    }
+
+    .stat-number {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+
+    .profile-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    .profile-card {
+        background: var(--bg-card);
+        border-radius: var(--border-radius-xl);
+        padding: 2.5rem;
+        box-shadow: var(--shadow-xl);
+        border: 1px solid var(--border-color);
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .card-title i {
+        color: var(--primary-color);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid var(--border-color);
+        border-radius: var(--border-radius);
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-size: 1rem;
+        transition: var(--transition);
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .btn-save {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: var(--border-radius);
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    .btn-save:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
+    .quick-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .action-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 1rem;
+        background: var(--bg-primary);
+        border: 2px solid var(--border-color);
+        border-radius: var(--border-radius);
+        color: var(--text-primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+    }
+
+    .action-btn:hover {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+        transform: translateY(-2px);
+    }
+
+    .preferences-preview {
+        background: var(--bg-primary);
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        margin-top: 1.5rem;
+    }
+
+    .preference-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .preference-item:last-child {
+        border-bottom: none;
+    }
+
+    .brand-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .brand-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+    }
+
+    .brand-percentage {
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+
+    .empty-preferences {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-secondary);
+    }
+
+    .empty-preferences i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+
+    /* CSS para produtos favoritos */
+    .favorites-section {
+        margin-top: 3rem;
+    }
+
+    .favorites-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .favorite-product-card {
+        background: var(--bg-card);
+        border-radius: var(--border-radius-lg);
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+        border: 1px solid var(--border-color);
+        overflow: hidden;
+    }
+
+    .favorite-product-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: var(--transition-slow);
+    }
+
+    .favorite-product-card:hover::before {
+        left: 100%;
+    }
+
+    .favorite-product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary-color);
+    }
+
+    .favorite-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: var(--accent-color);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        z-index: 2;
+    }
+
+    .favorite-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: var(--border-radius);
+        margin-bottom: 1rem;
+        transition: var(--transition);
+    }
+
+    .favorite-product-card:hover .favorite-image {
+        transform: scale(1.05);
+    }
+
+    .favorite-info {
+        margin-bottom: 1rem;
+    }
+
+    .favorite-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+        line-height: 1.3;
+    }
+
+    .favorite-brand {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .favorite-price {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: var(--primary-color);
+        margin: 0.5rem 0;
+    }
+
+    .favorite-actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .btn-favorite-remove {
+        background: var(--error-color);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: var(--border-radius);
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: var(--transition);
+        flex: 1;
+    }
+
+    .btn-favorite-remove:hover {
+        background: var(--accent-dark);
+        transform: translateY(-2px);
+    }
+
+    .btn-view-details {
+        background: transparent;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        padding: 0.5rem 1rem;
+        border-radius: var(--border-radius);
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: var(--transition);
+        flex: 1;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.25rem;
+    }
+
+    .btn-view-details:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .profile-content {
+            grid-template-columns: 1fr;
+        }
+        
+        .profile-header {
+            padding: 2rem 1.5rem;
+        }
+        
+        .profile-stats {
+            grid-template-columns: 1fr;
+        }
+        
+        .quick-actions {
+            grid-template-columns: 1fr;
+        }
+        
+        .profile-card {
+            padding: 1.5rem;
+        }
+        
+        .favorites-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<section class="profile-section">
+    <div class="container profile-container">
+        <!-- Cabeçalho do Perfil -->
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <h1 class="profile-name">{{ user.username }}</h1>
+            <p class="profile-email">{{ user.email }}</p>
+            
+            <div class="profile-stats">
+                <div class="stat-card">
+                    <div class="stat-number">{{ user_preferences.values()|sum|round(1) }}%</div>
+                    <div class="stat-label">Preferências Calculadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ user_recommendations|length }}</div>
+                    <div class="stat-label">Produtos Recomendados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ user_favorites|length }}</div>
+                    <div class="stat-label">Favoritos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ user.created_at[:10] }}</div>
+                    <div class="stat-label">Membro desde</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <!-- Informações Pessoais -->
+            <div class="profile-card">
+                <h2 class="card-title">
+                    <i class="fas fa-user-edit"></i>
+                    Informações Pessoais
+                </h2>
+                
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label class="form-label">Nome de Usuário</label>
+                        <input type="text" class="form-input" id="username" name="username" value="{{ user.username }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="email" name="email" value="{{ user.email }}" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-save">
+                        <i class="fas fa-save"></i>
+                        Salvar Alterações
+                    </button>
+                </form>
+
+                <div class="quick-actions">
+                    <a href="/profile/preferences" class="action-btn">
+                        <i class="fas fa-chart-bar"></i>
+                        Minhas Preferências
+                    </a>
+                    <a href="/cart" class="action-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        Meu Carrinho
+                    </a>
+                </div>
+            </div>
+
+            <!-- Segurança e Preferências -->
+            <div class="profile-card">
+                <h2 class="card-title">
+                    <i class="fas fa-lock"></i>
+                    Segurança
+                </h2>
+                
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label class="form-label">Senha Atual</label>
+                        <input type="password" class="form-input" id="current_password" name="current_password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nova Senha</label>
+                        <input type="password" class="form-input" id="new_password" name="new_password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Confirmar Nova Senha</label>
+                        <input type="password" class="form-input" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-save">
+                        <i class="fas fa-key"></i>
+                        Alterar Senha
+                    </button>
+                </form>
+
+                <!-- Preview das Preferências -->
+                <div style="margin-top: 2.5rem;">
+                    <h3 class="card-title" style="font-size: 1.25rem; margin-bottom: 1rem;">
+                        <i class="fas fa-heart"></i>
+                        Suas Preferências
+                    </h3>
+                    
+                    {% if user_preferences %}
+                    <div class="preferences-preview">
+                        {% for brand, percentage in user_preferences.items() %}
+                        <div class="preference-item">
+                            <div class="brand-info">
+                                <div class="brand-color" style="background: {{ get_brand_color(brand) }};"></div>
+                                <span>{{ brand }}</span>
+                            </div>
+                            <span class="brand-percentage">{{ percentage }}%</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-preferences">
+                        <i class="fas fa-chart-pie"></i>
+                        <p>Nenhuma preferência ainda</p>
+                        <small>Interaja com produtos para ver suas preferências aqui</small>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Favoritos -->
+        <div class="profile-card favorites-section">
+            <h2 class="card-title">
+                <i class="fas fa-heart" style="color: var(--accent-color);"></i>
+                Meus Favoritos
+            </h2>
+            
+            {% if user_favorites %}
+            <div class="favorites-grid">
+                {% for product in user_favorites %}
+                <div class="favorite-product-card">
+                    <div class="favorite-badge">
+                        <i class="fas fa-heart"></i>
+                        Favorito
+                    </div>
+                    
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}" class="favorite-image">
+                    
+                    <div class="favorite-info">
+                        <h3 class="favorite-name">{{ product.name }}</h3>
+                        
+                        <div class="favorite-brand">
+                            <i class="fas fa-tag"></i>
+                            {{ product.brand }}
+                        </div>
+                        
+                        <div class="favorite-price">
+                            R$ {{ "%.2f"|format(product.price) }}
+                        </div>
+                    </div>
+                    
+                    <div class="favorite-actions">
+                        <button class="btn-favorite-remove" onclick="toggleFavorite({{ product.id }}, this)">
+                            <i class="fas fa-times"></i>
+                            Remover
+                        </button>
+                        <a href="/?view_product={{ product.id }}" class="btn-view-details">
+                            <i class="fas fa-eye"></i>
+                            Ver
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-preferences">
+                <i class="fas fa-heart" style="color: var(--accent-color);"></i>
+                <p>Nenhum produto favoritado</p>
+                <small>Clique no coração nos produtos para adicionar aos favoritos</small>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<script>
+// Atualizar perfil
+document.getElementById('profileForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        username: document.getElementById('username').value,
+        email: document.getElementById('email').value
+    };
+    
+    try {
+        const response = await fetch('/profile/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification('✅ ' + result.message);
+            // Atualizar nome no header se necessário
+            const userNameElements = document.querySelectorAll('.user-name');
+            userNameElements.forEach(el => {
+                el.textContent = formData.username;
+            });
+        } else {
+            showNotification('❌ ' + result.message, 'error');
+        }
+    } catch (error) {
+        showNotification('❌ Erro de conexão', 'error');
+    }
+});
+
+// Alterar senha
+document.getElementById('passwordForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        current_password: document.getElementById('current_password').value,
+        new_password: document.getElementById('new_password').value,
+        confirm_password: document.getElementById('confirm_password').value
+    };
+    
+    try {
+        const response = await fetch('/profile/change-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification('✅ ' + result.message);
+            document.getElementById('passwordForm').reset();
+        } else {
+            showNotification('❌ ' + result.message, 'error');
+        }
+    } catch (error) {
+        showNotification('❌ Erro de conexão', 'error');
+    }
+});
+
+// Função para remover favorito
+async function toggleFavorite(productId, button) {
+    try {
+        const response = await fetch('/favorite/' + productId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showNotification('✅ ' + result.message);
+            // Remover o card do DOM
+            button.closest('.favorite-product-card').remove();
+            
+            // Atualizar contador de favoritos
+            const favoritesCount = document.querySelector('.stat-card:nth-child(3) .stat-number');
+            if (favoritesCount) {
+                const currentCount = parseInt(favoritesCount.textContent) || 0;
+                favoritesCount.textContent = Math.max(0, currentCount - 1);
+            }
+        } else {
+            showNotification('❌ ' + result.message, 'error');
+        }
+    } catch (error) {
+        showNotification('❌ Erro de conexão', 'error');
+    }
+}
+
+// Função de notificação
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'error' ? '#ef4444' : '#10b981'};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+        z-index: 10000;
+        animation: slideInRight 0.3s ease-out;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// Adicionar animação CSS se não existir
+if (!document.querySelector('#slideInRight')) {
+    const style = document.createElement('style');
+    style.id = 'slideInRight';
+    style.textContent = `
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+</script>
+{% endblock %}

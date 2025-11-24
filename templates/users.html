@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Usuários - AETHERSOLES</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-header">
+        <div class="admin-nav">
+            <div class="admin-title">
+                <i class="fas fa-crown"></i>
+                Gerenciar Usuários
+            </div>
+            <div class="admin-links">
+                <a href="/">
+                    <i class="fas fa-store"></i>
+                    Loja
+                </a>
+                <a href="/admin">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+                <a href="/admin/products">
+                    <i class="fas fa-shoe-prints"></i>
+                    Produtos
+                </a>
+                <a href="/admin/users" class="active">
+                    <i class="fas fa-users"></i>
+                    Usuários
+                </a>
+                <a href="/admin/analytics">
+                    <i class="fas fa-chart-bar"></i>
+                    Analytics
+                </a>
+                <a href="/logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-container">
+        <div class="admin-section">
+            <h3 class="section-title">
+                <i class="fas fa-users"></i>
+                Todos os Usuários
+            </h3>
+
+            {% if users %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuário</th>
+                            <th>Email</th>
+                            <th>Cargo</th>
+                            <th>Data de Cadastro</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>
+                                <div style="font-weight: 600;">{{ user.username }}</div>
+                            </td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% if user.role == 'admin' %}
+                                <span class="badge badge-danger">
+                                    <i class="fas fa-crown"></i>
+                                    Administrador
+                                </span>
+                                {% else %}
+                                <span class="badge badge-success">
+                                    <i class="fas fa-user"></i>
+                                    Usuário
+                                </span>
+                                {% endif %}
+                            </td>
+                            <td>{{ user.created_at[:10] }}</td>
+                            <td>
+                                <span class="badge badge-success">
+                                    <i class="fas fa-check-circle"></i>
+                                    Ativo
+                                </span>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    {% if user.id != 1 %}
+                                    <button class="btn-admin btn-edit" onclick="editUser({{ user.id }})">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-admin btn-delete" onclick="deleteUser({{ user.id }})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    {% else %}
+                                    <span style="color: var(--text-secondary); font-size: 0.875rem;">
+                                        Admin Principal
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="stats-grid" style="margin-top: 2rem;">
+                <div class="stat-card">
+                    <div class="stat-label">Total de Usuários</div>
+                    <div class="stat-number">{{ users|length }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Administradores</div>
+                    <div class="stat-number">{{ users|selectattr('role', 'equalto', 'admin')|list|length }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Usuários Comuns</div>
+                    <div class="stat-number">{{ users|rejectattr('role', 'equalto', 'admin')|list|length }}</div>
+                </div>
+            </div>
+            {% else %}
+            <div style="text-align: center; padding: 4rem; color: var(--text-secondary);">
+                <i class="fas fa-users" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+                <h3>Nenhum usuário cadastrado</h3>
+                <p>Os usuários aparecerão aqui após se cadastrarem.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <script>
+        function editUser(userId) {
+            showNotification('⚠️ Edição de usuário em desenvolvimento', 'error');
+        }
+    </script>
+</body>
+</html>

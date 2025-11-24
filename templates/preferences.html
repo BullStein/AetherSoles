@@ -1,0 +1,590 @@
+{% extends "base.html" %}
+
+{% block title %}Minhas Preferências - Tênis Store{% endblock %}
+
+{% block content %}
+<style>
+    .preferences-section {
+        padding: 4rem 0;
+        background: var(--bg-secondary);
+        min-height: 100vh;
+    }
+
+    .preferences-card {
+        background: var(--bg-card);
+        border-radius: var(--border-radius-xl);
+        padding: 3rem;
+        box-shadow: var(--shadow-xl);
+        border: 1px solid var(--border-color);
+        margin-bottom: 3rem;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 2rem;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .preferences-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        margin-bottom: 3rem;
+    }
+
+    .preference-chart {
+        background: var(--bg-secondary);
+        padding: 2rem;
+        border-radius: var(--border-radius-lg);
+    }
+
+    .brand-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .brand-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem;
+        background: var(--bg-primary);
+        border-radius: var(--border-radius);
+        border-left: 4px solid var(--primary-color);
+        transition: var(--transition);
+    }
+
+    .brand-item:hover {
+        transform: translateX(8px);
+        box-shadow: var(--shadow);
+    }
+
+    .brand-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .brand-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+    }
+
+    .brand-name {
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 1.1rem;
+    }
+
+    .brand-percentage {
+        font-weight: 800;
+        color: var(--primary-color);
+        font-size: 1.25rem;
+    }
+
+    /* CSS ESPECÍFICO PARA OS PRODUTOS NA PÁGINA DE PREFERÊNCIAS */
+    .product-card {
+        background: var(--bg-card);
+        border-radius: var(--border-radius-lg);
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+        border: 1px solid var(--border-color);
+        overflow: hidden;
+        height: fit-content;
+    }
+
+    .product-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: var(--transition-slow);
+    }
+
+    .product-card:hover::before {
+        left: 100%;
+    }
+
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-xl);
+        border-color: var(--primary-color);
+    }
+
+    .product-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: var(--accent-color);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        z-index: 2;
+    }
+
+    .product-badge.featured {
+        background: var(--secondary-color);
+        color: #000;
+    }
+
+    .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: var(--border-radius);
+        margin-bottom: 1.5rem;
+        transition: var(--transition);
+    }
+
+    .product-card:hover .product-image {
+        transform: scale(1.05);
+    }
+
+    .product-info {
+        margin-bottom: 1.5rem;
+    }
+
+    .product-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .product-brand {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .product-category {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .product-description {
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .product-price {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--primary-color);
+        margin: 1rem 0;
+    }
+
+    .product-stock {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .stock-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--success-color);
+    }
+
+    .stock-dot.low {
+        background: var(--warning-color);
+    }
+
+    .stock-dot.out {
+        background: var(--error-color);
+    }
+
+    .product-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    /* Botões */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: var(--border-radius);
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 0.875rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: var(--transition);
+    }
+
+    .btn:hover::before {
+        left: 100%;
+    }
+
+    .btn-primary {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+        background: transparent;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+    }
+
+    .btn-secondary:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .btn-cart {
+        background: var(--success-color);
+        color: white;
+        padding: 0.75rem;
+        border-radius: var(--border-radius);
+        width: 3rem;
+        height: 3rem;
+        flex-shrink: 0;
+    }
+
+    .btn-cart:hover {
+        background: #059669;
+        transform: translateY(-2px) rotate(5deg);
+    }
+
+    .recommendations-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: var(--text-secondary);
+    }
+
+    .empty-icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.5;
+    }
+
+    .info-box {
+        background: var(--bg-secondary);
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        border-left: 4px solid var(--secondary-color);
+        margin-bottom: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .preferences-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .preferences-card {
+            padding: 2rem 1.5rem;
+        }
+        
+        .recommendations-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+        }
+        
+        .product-actions {
+            flex-direction: column;
+        }
+        
+        .product-actions .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .preferences-card {
+            padding: 1.5rem 1rem;
+        }
+        
+        .product-image {
+            height: 180px;
+        }
+        
+        .recommendations-grid {
+            gap: 1.5rem;
+        }
+    }
+</style>
+
+<section class="preferences-section">
+    <div class="container">
+        <div class="preferences-card">
+            <h1 class="section-title">
+                <i class="fas fa-user-cog"></i>
+                Minhas Preferências
+            </h1>
+
+            <div class="info-box">
+                <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">
+                    <i class="fas fa-info-circle"></i>
+                    Como funcionam suas recomendações?
+                </h3>
+                <p style="color: var(--text-secondary); margin: 0;">
+                    Suas preferências são calculadas automaticamente com base nos produtos que você visualiza e adiciona ao carrinho. 
+                    Quanto mais você interage com produtos de uma marca, mais recomendações similares você recebe!
+                </p>
+            </div>
+
+            <div class="preferences-grid">
+                <div class="preference-chart">
+                    <h3 style="color: var(--text-primary); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-chart-pie"></i>
+                        Preferências por Marca
+                    </h3>
+                    
+                    {% if user_preferences %}
+                    <div class="brand-list">
+                        {% for brand, percentage in user_preferences.items() %}
+                        <div class="brand-item">
+                            <div class="brand-info">
+                                <div class="brand-color" style="background: {{ get_brand_color(brand) }};"></div>
+                                <span class="brand-name">{{ brand }}</span>
+                            </div>
+                            <span class="brand-percentage">{{ percentage }}%</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Nenhuma preferência ainda</h3>
+                        <p>Comece a explorar produtos e adicionar itens ao carrinho para ver suas preferências aqui!</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <h3 style="color: var(--text-primary); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-lightbulb"></i>
+                        Como melhorar suas recomendações
+                    </h3>
+                    <div style="background: var(--bg-primary); padding: 1.5rem; border-radius: var(--border-radius);">
+                        <ul style="color: var(--text-secondary); line-height: 1.6; list-style: none; padding: 0;">
+                            <li style="margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 0.5rem;">
+                                <i class="fas fa-shopping-cart" style="color: var(--success-color); margin-top: 0.25rem;"></i>
+                                Adicione produtos ao carrinho
+                            </li>
+                            <li style="margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 0.5rem;">
+                                <i class="fas fa-eye" style="color: var(--primary-color); margin-top: 0.25rem;"></i>
+                                Visualize detalhes dos produtos
+                            </li>
+                            <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                                <i class="fas fa-heart" style="color: var(--accent-color); margin-top: 0.25rem;"></i>
+                                Interaja com diferentes marcas
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="color: var(--text-primary); margin: 3rem 0 1.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-gift"></i>
+                Produtos Recomendados Para Você
+            </h3>
+
+            {% if user_recommendations %}
+            <div class="recommendations-grid">
+                {% for product in user_recommendations %}
+                <div class="product-card">
+                    <div class="product-badge" style="background: var(--secondary-color); color: #000;">
+                        <i class="fas fa-star"></i>
+                        Recomendado
+                    </div>
+                    
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-image">
+                    
+                    <div class="product-info">
+                        <h3 class="product-name">{{ product.name }}</h3>
+                        
+                        <div class="product-brand">
+                            <i class="fas fa-tag"></i>
+                            {{ product.brand }}
+                        </div>
+                        
+                        <div class="product-category">
+                            {{ product.category }}
+                        </div>
+                        
+                        <p class="product-description">
+                            {{ product.description }}
+                        </p>
+                        
+                        <div class="product-price">
+                            R$ {{ "%.2f"|format(product.price) }}
+                        </div>
+                        
+                        <div class="product-stock">
+                            <div class="stock-dot {% if product.stock > 10 %}{% elif product.stock > 0 %}low{% else %}out{% endif %}"></div>
+                            {{ product.stock }} unidades disponíveis
+                        </div>
+                    </div>
+                    
+                    <div class="product-actions">
+                        <button class="btn btn-secondary" style="flex: 1;" onclick="showProductDetails({{ product.id }})">
+                            <i class="fas fa-eye"></i>
+                            Detalhes
+                        </button>
+                        <button class="btn btn-cart" onclick="addToCart({{ product.id }})">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Nenhuma recomendação ainda</h3>
+                <p>Continue explorando a loja para receber recomendações personalizadas!</p>
+            </div>
+            {% endif %}
+
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="/profile" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i>
+                    Voltar para o Perfil
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Funções JavaScript necessárias
+async function addToCart(productId) {
+    try {
+        const response = await fetch('/add_to_cart/' + productId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showNotification('🎉 Produto adicionado ao carrinho!');
+            updateCartCounter();
+        } else {
+            showNotification('❌ ' + result.message, 'error');
+        }
+    } catch (error) {
+        showNotification('❌ Erro de conexão', 'error');
+    }
+}
+
+function showProductDetails(productId) {
+    // Redireciona para a homepage com o modal aberto
+    window.location.href = '/?view_product=' + productId;
+}
+
+// Se as funções abaixo não existirem globalmente, defina-as
+if (typeof showNotification === 'undefined') {
+    function showNotification(message, type = 'success') {
+        // Cria uma notificação simples
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'error' ? '#ef4444' : '#10b981'};
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+        `;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+}
+
+if (typeof updateCartCounter === 'undefined') {
+    function updateCartCounter() {
+        // Atualiza o contador do carrinho se existir
+        const cartCounter = document.querySelector('.cart-counter');
+        if (cartCounter) {
+            const current = parseInt(cartCounter.textContent) || 0;
+            cartCounter.textContent = current + 1;
+        }
+    }
+}
+</script>
+{% endblock %}

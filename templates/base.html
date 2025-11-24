@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AETHERSOLES - Os Melhores Tênis{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary-color: #f59e0b;
+            --secondary-dark: #d97706;
+            --accent-color: #ef4444;
+            --accent-dark: #dc2626;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+            
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-overlay: rgba(0, 0, 0, 0.5);
+            
+            --border-color: #e5e7eb;
+            --border-light: #f3f4f6;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            
+            --border-radius: 0.75rem;
+            --border-radius-lg: 1rem;
+            --border-radius-xl: 1.5rem;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark-mode {
+            --primary-color: #818cf8;
+            --primary-dark: #6366f1;
+            --primary-light: #a5b4fc;
+            --secondary-color: #fbbf24;
+            --secondary-dark: #f59e0b;
+            --accent-color: #f87171;
+            --accent-dark: #ef4444;
+            --success-color: #34d399;
+            --warning-color: #fbbf24;
+            --error-color: #f87171;
+            
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --text-light: #9ca3af;
+            
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --bg-card: #374151;
+            --bg-overlay: rgba(0, 0, 0, 0.7);
+            
+            --border-color: #4b5563;
+            --border-light: #374151;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            
+            --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #7e22ce 100%);
+            --gradient-secondary: linear-gradient(135deg, #86198f 0%, #be185d 100%);
+            --gradient-accent: linear-gradient(135deg, #0369a1 0%, #0ea5e9 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            transition: var(--transition);
+            font-weight: 400;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: 3rem; }
+        h2 { font-size: 2.25rem; }
+        h3 { font-size: 1.875rem; }
+        h4 { font-size: 1.5rem; }
+        h5 { font-size: 1.25rem; }
+        h6 { font-size: 1.125rem; }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        /* Header Moderno */
+        .header {
+            background: var(--bg-card);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.75rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        .logo:hover {
+            transform: translateY(-1px);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-color);
+            transition: var(--transition);
+            z-index: -1;
+            border-radius: var(--border-radius);
+        }
+
+        .nav-link:hover::before {
+            left: 0;
+        }
+
+        .nav-link:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-user {
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .nav-user:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .admin-link {
+            background: var(--accent-color);
+            color: white !important;
+            border-radius: var(--border-radius);
+            padding: 0.75rem 1.25rem;
+        }
+
+        .admin-link:hover {
+            background: var(--accent-dark) !important;
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        .admin-link::before {
+            display: none;
+        }
+
+        .cart-link {
+            position: relative;
+        }
+
+        .cart-counter {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .theme-toggle {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.75rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: rotate(15deg) scale(1.1);
+            border-color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* Flash Messages */
+        .flash-messages {
+            max-width: 1200px;
+            margin: 1rem auto;
+            padding: 0 2rem;
+        }
+
+        .flash {
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-left: 4px solid;
+            box-shadow: var(--shadow);
+            animation: slideInDown 0.5s ease-out;
+        }
+
+        .flash.success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left-color: var(--success-color);
+        }
+
+        .flash.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left-color: var(--error-color);
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-section p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.75rem;
+            transition: var(--transition);
+            padding: 0.25rem 0;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            background: var(--bg-secondary);
+            padding: 0.75rem;
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            margin-bottom: 0;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px) scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        /* Main Content */
+        main {
+            min-height: calc(100vh - 200px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0.75rem 1rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--bg-card);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: var(--shadow-lg);
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: var(--transition);
+                z-index: 999;
+                gap: 0.5rem;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            .nav-link {
+                width: 100%;
+                justify-content: center;
+                padding: 1rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            h1 { font-size: 2.25rem; }
+            h2 { font-size: 1.875rem; }
+            h3 { font-size: 1.5rem; }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+
+        .hidden { display: none; }
+        .flex { display: flex; }
+        .grid { display: grid; }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border-color);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Moderno -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-shoe-prints"></i>
+                <span>AETHERSOLES</span>
+            </a>
+
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="nav-links" id="navLinks">
+                <a href="/" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="/cart" class="nav-link cart-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Carrinho</span>
+                    <span class="cart-counter" id="cartCounter">0</span>
+                </a>
+                
+                {% if session.username %}
+                    <!-- LINK DO PERFIL - AGORA CLICÁVEL -->
+                    <a href="/profile" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="user-name">{{ session.username }}</span>
+                    </a>
+                    
+                    {% if session.role == 'admin' %}
+                        <a href="/admin" class="nav-link admin-link">
+                            <i class="fas fa-crown"></i>
+                            <span>Admin</span>
+                        </a>
+                    {% endif %}
+                    
+                    <a href="/logout" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sair</span>
+                    </a>
+                {% else %}
+                    <a href="/login" class="nav-link">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Entrar</span>
+                    </a>
+                    <a href="/register" class="nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Cadastrar</span>
+                    </a>
+                {% endif %}
+
+                <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        <i class="fas fa-{{ 'check-circle' if category == 'success' else 'exclamation-circle' }}"></i>
+                        <span>{{ message }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>
+                    <i class="fas fa-shoe-prints"></i>
+                    AETHERSOLES
+                </h3>
+                <p>Encontre os tênis perfeitos para cada momento da sua vida. Qualidade, estilo e conforto em um só lugar.</p>
+                <div class="social-links">
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3><i class="fas fa-link"></i> Links Rápidos</h3>
+                <a href="/">Home</a>
+                <a href="/cart">Carrinho</a>
+                {% if session.username %}
+                    <a href="/profile">Meu Perfil</a>
+                    <a href="/profile/preferences">Minhas Preferências</a>
+                {% else %}
+                    <a href="/login">Minha Conta</a>
+                {% endif %}
+                {% if session.role == 'admin' %}
+                <a href="/admin">Área Admin</a>
+                {% endif %}
+            </div>
+            
+            <div class="footer-section">
+                <h3><i class="fas fa-info-circle"></i> Informações</h3>
+                <a href="#">Sobre Nós</a>
+                <a href="#">Política de Privacidade</a>
+                <a href="#">Termos de Serviço</a>
+                <a href="#">Trocas e Devoluções</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3><i class="fas fa-headset"></i> Contato</h3>
+                <p><i class="fas fa-envelope"></i> contato@tenisstore.com</p>
+                <p><i class="fas fa-phone"></i> (11) 9999-9999</p>
+                <p><i class="fas fa-map-marker-alt"></i> São Paulo, SP</p>
+                <p><i class="fas fa-clock"></i> Seg-Sex: 9h-18h</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 AETHERSOLES. Todos os direitos reservados. | Desenvolvido com <i class="fas fa-heart" style="color: var(--accent-color);"></i> para amantes de tênis</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sistema de Modo Escuro/Claro
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const button = document.querySelector('.theme-toggle i');
+            const isDark = document.body.classList.contains('dark-mode');
+            
+            if (isDark) {
+                button.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                button.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Carregar tema salvo
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeButton = document.querySelector('.theme-toggle i');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                if (themeButton) themeButton.className = 'fas fa-sun';
+            }
+            
+            // Atualizar contador do carrinho inicial
+            updateCartCounter();
+        });
+
+        // Menu Mobile
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+            
+            const button = document.querySelector('.mobile-menu-btn i');
+            if (navLinks.classList.contains('active')) {
+                button.className = 'fas fa-times';
+            } else {
+                button.className = 'fas fa-bars';
+            }
+        }
+
+        // Fechar menu mobile ao clicar em um link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                const navLinks = document.getElementById('navLinks');
+                const button = document.querySelector('.mobile-menu-btn i');
+                
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    button.className = 'fas fa-bars';
+                }
+            });
+        });
+
+        // Atualizar contador do carrinho
+        async function updateCartCounter() {
+            try {
+                // Buscar dados do carrinho da API
+                const response = await fetch('/cart/data');
+                if (response.ok) {
+                    const data = await response.json();
+                    const counter = document.getElementById('cartCounter');
+                    if (counter && data.total_items !== undefined) {
+                        counter.textContent = data.total_items;
+                    }
+                }
+            } catch (error) {
+                // Fallback: contar itens na página se a API falhar
+                const cartItems = document.querySelectorAll('.cart-item, [data-cart-item]');
+                const counter = document.getElementById('cartCounter');
+                if (counter) {
+                    counter.textContent = cartItems.length || '0';
+                }
+            }
+        }
+
+        // Função global para atualizar o contador (chamada de outras páginas)
+        window.updateCartCounter = updateCartCounter;
+
+        // Sistema de notificação
+        function showNotification(message, type = 'success') {
+            // Remover notificações existentes
+            const existingNotifications = document.querySelectorAll('.flash-notification');
+            existingNotifications.forEach(notification => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            });
+
+            const notification = document.createElement('div');
+            notification.className = `flash ${type} flash-notification`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 2rem;
+                z-index: 10000;
+                animation: slideInRight 0.5s ease-out;
+                max-width: 400px;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.5s ease-in';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 500);
+            }, 4000);
+        }
+
+        // Função global para mostrar notificações
+        window.showNotification = showNotification;
+
+        // Adicionar animações CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+            
+            .flash-notification {
+                position: fixed !important;
+                top: 100px !important;
+                right: 2rem !important;
+                z-index: 10000 !important;
+                max-width: 400px !important;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Fechar menu ao clicar fora (para mobile)
+        document.addEventListener('click', function(event) {
+            const navLinks = document.getElementById('navLinks');
+            const mobileBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (navLinks.classList.contains('active') && 
+                !navLinks.contains(event.target) && 
+                !mobileBtn.contains(event.target)) {
+                navLinks.classList.remove('active');
+                mobileBtn.querySelector('i').className = 'fas fa-bars';
+            }
+        });
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

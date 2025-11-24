@@ -1,0 +1,508 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro - AETHERSOLES{% endblock %}
+
+{% block content %}
+<style>
+    .auth-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        background: var(--bg-secondary);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .auth-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--gradient-secondary);
+        opacity: 0.05;
+        z-index: 1;
+    }
+
+    .auth-container {
+        position: relative;
+        z-index: 2;
+        width: 35vw;
+    }
+
+    .auth-card {
+        background: var(--bg-card);
+        border-radius: var(--border-radius-xl);
+        padding: 3rem;
+        box-shadow: var(--shadow-2xl);
+        border: 1px solid var(--border-color);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+    }
+
+    .auth-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--gradient-secondary);
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .auth-icon {
+        width: 80px;
+        height: 80px;
+        background: var(--gradient-secondary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 2rem;
+        color: white;
+        box-shadow: var(--shadow-lg);
+        animation: bounceIn 1s ease-out;
+    }
+
+    .auth-title {
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .auth-subtitle {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+
+    .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 0.9rem;
+    }
+
+    .form-label i {
+        color: var(--primary-color);
+        width: 16px;
+    }
+
+    .form-input {
+        padding: 1rem 1.25rem;
+        border: 2px solid var(--border-color);
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        transition: var(--transition);
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: inherit;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .form-input::placeholder {
+        color: var(--text-light);
+    }
+
+    .password-strength {
+        margin-top: 0.5rem;
+    }
+
+    .strength-bar {
+        height: 4px;
+        background: var(--border-color);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-bottom: 0.25rem;
+    }
+
+    .strength-fill {
+        height: 100%;
+        width: 0%;
+        background: var(--error-color);
+        transition: var(--transition);
+        border-radius: 2px;
+    }
+
+    .strength-fill.weak { width: 33%; background: var(--error-color); }
+    .strength-fill.medium { width: 66%; background: var(--warning-color); }
+    .strength-fill.strong { width: 100%; background: var(--success-color); }
+
+    .strength-text {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+    .btn-auth {
+        width: 100%;
+        padding: 1.125rem 1.5rem;
+        background: var(--gradient-secondary);
+        color: white;
+        border: none;
+        border-radius: var(--border-radius);
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-top: 1rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .btn-auth::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: var(--transition);
+    }
+
+    .btn-auth:hover::before {
+        left: 100%;
+    }
+
+    .btn-auth:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .auth-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .auth-link:hover {
+        color: var(--primary-dark);
+        transform: translateX(3px);
+    }
+
+    .terms-agreement {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-top: 1rem;
+        padding: 1.25rem;
+        background: var(--bg-secondary);
+        border-radius: var(--border-radius);
+        border: 1px solid var(--border-color);
+    }
+
+    .terms-checkbox {
+        margin-top: 0.25rem;
+        accent-color: var(--primary-color);
+    }
+
+    .terms-text {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        line-height: 1.5;
+    }
+
+    .terms-text a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .terms-text a:hover {
+        text-decoration: underline;
+    }
+
+    /* Floating Elements */
+    .floating-element {
+        position: absolute;
+        background: var(--secondary-color);
+        border-radius: 50%;
+        opacity: 0.08;
+        animation: float 8s ease-in-out infinite;
+        filter: blur(1px);
+    }
+
+    .float-1 {
+        width: 120px;
+        height: 120px;
+        top: 15%;
+        right: 10%;
+        animation-delay: 0s;
+    }
+
+    .float-2 {
+        width: 80px;
+        height: 80px;
+        bottom: 25%;
+        left: 8%;
+        animation-delay: 3s;
+    }
+
+    .float-3 {
+        width: 60px;
+        height: 60px;
+        top: 70%;
+        right: 15%;
+        animation-delay: 6s;
+    }
+
+    /* Animations */
+    @keyframes bounceIn {
+        0% {
+            opacity: 0;
+            transform: scale(0.3);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        70% {
+            transform: scale(0.9);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+        .auth-section {
+            padding: 1rem;
+        }
+
+        .auth-card {
+            padding: 2rem;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .auth-title {
+            font-size: 1.875rem;
+        }
+
+        .terms-agreement {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+
+<section class="auth-section">
+    <div class="auth-background"></div>
+    
+    <!-- Floating Elements -->
+    <div class="floating-element float-1"></div>
+    <div class="floating-element float-2"></div>
+    <div class="floating-element float-3"></div>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h1 class="auth-title">Junte-se a Nós</h1>
+                <p class="auth-subtitle">Crie sua conta e descubra o mundo dos tênis premium</p>
+            </div>
+
+            <form method="POST" class="auth-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-user"></i>
+                            Usuário
+                        </label>
+                        <input type="text" name="username" class="form-input" placeholder="Escolha um usuário" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-envelope"></i>
+                            Email
+                        </label>
+                        <input type="email" name="email" class="form-input" placeholder="seu@email.com" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-lock"></i>
+                            Senha
+                        </label>
+                        <input type="password" name="password" id="password" class="form-input" placeholder="Crie uma senha forte" required>
+                        <div class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-fill" id="strengthFill"></div>
+                            </div>
+                            <div class="strength-text" id="strengthText">Digite uma senha</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-lock"></i>
+                            Confirmar Senha
+                        </label>
+                        <input type="password" name="confirm_password" id="confirmPassword" class="form-input" placeholder="Confirme sua senha" required>
+                        <div class="password-strength">
+                            <div class="strength-text" id="confirmText"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="terms-agreement">
+                    <input type="checkbox" name="terms" class="terms-checkbox" required>
+                    <div class="terms-text">
+                        Concordo com os <a href="#">Termos de Serviço</a> e <a href="#">Política de Privacidade</a> 
+                        da AETHERSOLES. Seus dados estão seguros conosco.
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-auth">
+                    <i class="fas fa-user-plus"></i>
+                    Criar Minha Conta
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Já tem uma conta? 
+                    <a href="/login" class="auth-link">
+                        Faça login aqui
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Password Strength Indicator
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('confirmPassword');
+    const strengthFill = document.getElementById('strengthFill');
+    const strengthText = document.getElementById('strengthText');
+    const confirmText = document.getElementById('confirmText');
+
+    passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        let strength = 0;
+        let text = '';
+
+        // Check password strength
+        if (password.length >= 8) strength++;
+        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+        if (password.match(/\d/)) strength++;
+        if (password.match(/[^a-zA-Z\d]/)) strength++;
+
+        // Update strength indicator
+        strengthFill.className = 'strength-fill';
+        if (password.length === 0) {
+            strengthFill.style.width = '0%';
+            strengthText.textContent = 'Digite uma senha';
+            strengthText.style.color = 'var(--text-secondary)';
+        } else if (strength <= 1) {
+            strengthFill.classList.add('weak');
+            strengthText.textContent = 'Senha fraca';
+            strengthText.style.color = 'var(--error-color)';
+        } else if (strength <= 2) {
+            strengthFill.classList.add('medium');
+            strengthText.textContent = 'Senha média';
+            strengthText.style.color = 'var(--warning-color)';
+        } else {
+            strengthFill.classList.add('strong');
+            strengthText.textContent = 'Senha forte';
+            strengthText.style.color = 'var(--success-color)';
+        }
+
+        // Check password confirmation
+        checkPasswordMatch();
+    });
+
+    confirmInput.addEventListener('input', checkPasswordMatch);
+
+    function checkPasswordMatch() {
+        const password = passwordInput.value;
+        const confirm = confirmInput.value;
+
+        if (confirm.length === 0) {
+            confirmText.textContent = '';
+        } else if (password === confirm) {
+            confirmText.textContent = '✓ Senhas coincidem';
+            confirmText.style.color = 'var(--success-color)';
+        } else {
+            confirmText.textContent = '✗ Senhas não coincidem';
+            confirmText.style.color = 'var(--error-color)';
+        }
+    }
+
+    // Form submission animation
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const btn = this.querySelector('.btn-auth');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Criando conta...';
+        btn.disabled = true;
+    });
+</script>
+{% endblock %}

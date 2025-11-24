@@ -1,0 +1,349 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "email": "admin@tenisstore.com",
+      "password": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+      "role": "admin",
+      "created_at": "2025-11-20T21:59:39.072361"
+    },
+    {
+      "id": 2,
+      "username": "Arthur",
+      "email": "teste@gmail.com",
+      "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+      "role": "user",
+      "created_at": "2025-11-23T21:21:32.892808"
+    },
+    {
+      "id": 3,
+      "username": "Felipe",
+      "email": "felipe@gmail.com",
+      "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+      "role": "user",
+      "created_at": "2025-11-23T23:20:48.215891"
+    },
+    {
+      "id": 4,
+      "username": "Nicolas",
+      "email": "nicolas@gmail.com",
+      "password": "289160db0d9f39f9ae1754c4ec9c16f90b50e32e09c5fb5481ae642b3d3d1a36",
+      "role": "user",
+      "created_at": "2025-11-23T23:31:16.873471"
+    },
+    {
+      "id": 5,
+      "username": "Carlos",
+      "email": "carlos@gmail.com",
+      "password": "470ea79e04621c2e126e3a0a560bb1d94878809e7b7df20aa04f1662ecddf102",
+      "role": "user",
+      "created_at": "2025-11-24T11:55:52.323112"
+    },
+    {
+      "id": 6,
+      "username": "fatima",
+      "email": "fatima@gmail.com",
+      "password": "6e998d7123b0a99c294dac8049c9cb77c9768f12a8da60e818909f968628b4ce",
+      "role": "user",
+      "created_at": "2025-11-24T12:17:24.820395"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Tênis Nike Air Max 270 - EDIÇÃO LIMITADA",
+      "description": "Tênis esportivo com tecnologia Air Max para máximo conforto e estilo urbano.",
+      "price": 899.99,
+      "image_url": "https://gbny.com/cdn/shop/products/nike-footwear-nike-air-max-270-women-s-29273186271328.png?v=1674495596&width=2000",
+      "category": "Esportivo",
+      "brand": "Nike",
+      "featured": true,
+      "stock": 8,
+      "created_at": "2025-11-23T21:59:39.072361"
+    },
+    {
+      "id": 2,
+      "name": "Tênis Adidas Ultraboost 5.0",
+      "description": "Tênis de corrida com tecnologia Boost para amortecimento superior e performance máxima.",
+      "price": 799.99,
+      "image_url": "https://droper-lapse.us-southeast-1.linodeobjects.com/20250627184054571-952.webp",
+      "category": "Corrida",
+      "brand": "Adidas",
+      "featured": true,
+      "stock": 12,
+      "created_at": "2025-11-23T21:59:39.072361"
+    },
+    {
+      "id": 3,
+      "name": "Tênis Puma RS-X",
+      "description": "Tênis casual com design retrô inspirado nos anos 80 e conforto moderno.",
+      "price": 499.99,
+      "image_url": "https://droper-lapse.us-southeast-1.linodeobjects.com/20250515173356144-710.webp",
+      "category": "Casual",
+      "brand": "Puma",
+      "featured": false,
+      "stock": 25,
+      "created_at": "2025-11-23T21:59:39.072361"
+    },
+    {
+      "id": 4,
+      "name": "Tênis New Balance 574",
+      "description": "Clássico atemporal com conforto duradouro e estilo versátil para o dia a dia.",
+      "price": 449.99,
+      "image_url": "https://droper-media.us-southeast-1.linodeobjects.com/1462024164352438.webp",
+      "category": "Casual",
+      "brand": "New Balance",
+      "featured": false,
+      "stock": 30,
+      "created_at": "2025-11-23T21:59:39.072361"
+    },
+    {
+      "id": 5,
+      "name": "Tênis Nike Air Jordan 1",
+      "description": "Ícone do basquete com design clássico e tecnologia moderna.",
+      "price": 1299.99,
+      "image_url": "https://sneakersul.com.br/cdn/shop/files/air-jordan-1-high-85-black-and-white-1.webp?v=1711910069",
+      "category": "Basquete",
+      "brand": "Jordan",
+      "featured": false,
+      "stock": 5,
+      "created_at": "2025-11-23T21:59:39.072361"
+    },
+    {
+      "id": 6,
+      "name": "Tênis Adidas Superstar",
+      "description": "Clássico atemporal com design icônico e conforto superior.",
+      "price": 599.99,
+      "image_url": "https://2app.kicksonfire.com/kofapp/upload/events_master_images/ipad_adidas-superstar-w-off-white-wonder-silver.png",
+      "category": "Casual",
+      "brand": "Adidas",
+      "featured": false,
+      "stock": 15,
+      "created_at": "2025-11-23T21:59:39.072361"
+    },
+    {
+      "id": 7,
+      "name": "Tênis Mizuno Wave Rider",
+      "description": "Tênis de corrida com tecnologia Wave para excelente amortecimento e estabilidade.",
+      "price": 699.99,
+      "image_url": "https://magento.runningland.com.br/media/catalog/product/cache/7dc8c8a1d9f6fded057aae0dce030b2d/2/3/237016-800-800-photoroom.png-photoroom.png",
+      "category": "Corrida",
+      "brand": "Mizuno",
+      "featured": false,
+      "stock": 10,
+      "created_at": "2025-11-23T21:59:39.072361"
+    },
+    {
+      "id": 8,
+      "name": "Tênis Vans Old Skool",
+      "description": "Clássico do skate com design icônico e durabilidade comprovada.",
+      "price": 349.99,
+      "image_url": "https://images.tcdn.com.br/img/img_prod/1309535/tenis_vans_old_skool_classic_pesto_verde_441_5_07e11ac9c3948b97db0feaf456fc4725.png",
+      "category": "Skate",
+      "brand": "Vans",
+      "featured": false,
+      "stock": 20,
+      "created_at": "2025-11-23T21:59:39.072361"
+    },
+    {
+      "id": 9,
+      "name": "Mizuno Wave Lightning Z8 Mid",
+      "description": "Tênis focado em proteção da sola e respiração dos pés, ótimo para esportes frenéticos",
+      "price": 467.98,
+      "image_url": "https://www.supervolei.pt/imgs/produtos/gd_SH_V1GA240597_00_5.png",
+      "category": "Esportivo",
+      "brand": "Mizuno",
+      "featured": false,
+      "stock": 24,
+      "created_at": "2025-11-24T12:02:48.745955"
+    }
+  ],
+  "user_behaviors": [
+    {
+      "id": 1,
+      "user_id": 4,
+      "product_id": 7,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T11:36:36.079082"
+    },
+    {
+      "id": 2,
+      "user_id": 4,
+      "product_id": 6,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T11:36:38.134392"
+    },
+    {
+      "id": 3,
+      "user_id": 4,
+      "product_id": 3,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T11:36:39.569431"
+    },
+    {
+      "id": 4,
+      "user_id": 4,
+      "product_id": 3,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T11:47:06.839471"
+    },
+    {
+      "id": 5,
+      "user_id": 4,
+      "product_id": 6,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T11:47:07.823423"
+    },
+    {
+      "id": 6,
+      "user_id": 4,
+      "product_id": 5,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T11:50:42.696592"
+    },
+    {
+      "id": 7,
+      "user_id": 4,
+      "product_id": 1,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T11:50:46.030743"
+    },
+    {
+      "id": 8,
+      "user_id": 5,
+      "product_id": 1,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T11:56:07.953374"
+    },
+    {
+      "id": 9,
+      "user_id": 5,
+      "product_id": 8,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T11:56:26.264676"
+    },
+    {
+      "id": 10,
+      "user_id": 5,
+      "product_id": 2,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T11:56:39.866695"
+    },
+    {
+      "id": 11,
+      "user_id": 5,
+      "product_id": 4,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T11:58:32.735523"
+    },
+    {
+      "id": 12,
+      "user_id": 5,
+      "product_id": 2,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T12:16:14.866446"
+    },
+    {
+      "id": 13,
+      "user_id": 1,
+      "product_id": 1,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T12:16:40.720086"
+    },
+    {
+      "id": 14,
+      "user_id": 1,
+      "product_id": 9,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T12:19:24.842004"
+    },
+    {
+      "id": 15,
+      "user_id": 1,
+      "product_id": 7,
+      "action": "view",
+      "weight": 1,
+      "timestamp": "2025-11-24T12:19:37.897220"
+    }
+  ],
+  "cart_items": [
+    {
+      "id": 1,
+      "user_id": 5,
+      "product_id": 2,
+      "quantity": 1
+    },
+    {
+      "id": 2,
+      "user_id": 5,
+      "product_id": 6,
+      "quantity": 1
+    },
+    {
+      "id": 3,
+      "user_id": 5,
+      "product_id": 1,
+      "quantity": 1
+    },
+    {
+      "id": 4,
+      "user_id": 5,
+      "product_id": 4,
+      "quantity": 1
+    },
+    {
+      "id": 5,
+      "user_id": 1,
+      "product_id": 9,
+      "quantity": 2
+    },
+    {
+      "id": 6,
+      "user_id": 1,
+      "product_id": 7,
+      "quantity": 2
+    }
+  ],
+  "orders": [],
+  "favorites": [
+    {
+      "id": 1,
+      "user_id": 5,
+      "product_id": 2,
+      "created_at": "2025-11-24T11:58:21.492425"
+    },
+    {
+      "id": 2,
+      "user_id": 5,
+      "product_id": 4,
+      "created_at": "2025-11-24T11:58:35.544014"
+    },
+    {
+      "id": 3,
+      "user_id": 1,
+      "product_id": 9,
+      "created_at": "2025-11-24T12:19:26.912162"
+    },
+    {
+      "id": 4,
+      "user_id": 1,
+      "product_id": 7,
+      "created_at": "2025-11-24T12:19:40.192053"
+    }
+  ]
+}
