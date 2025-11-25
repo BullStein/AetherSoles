@@ -107,4 +107,4 @@ Fácil manutenção e extensibilidade
 ⭐ Se este projeto foi útil, deixe uma estrela no repositório!
 
 
-Agora você pode copiar e colar este conteúdo diretamente no seu arquivo `README.md` no GitHub! O Markdown está formatado corretamente com todos os badges, tabelas, estrutura de código e emojis. 🚀
+
